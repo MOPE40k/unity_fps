@@ -26,9 +26,12 @@ public class EnemyAI : MonoBehaviour
 
             if (Physics.SphereCast(ray, 1f, out hit))
             {
-                GameObject playerCharacter = hit.transform.gameObject;
-
-                if (playerCharacter.GetComponent<CharacterController>())
+                if (hit.distance <= _obstacleRange)
+                {
+                    float angle = Random.Range(-110, 110);
+                    transform.Rotate(0, angle, 0);
+                }
+                else if (hit.transform.GetComponent<CharacterController>() != null)
                 {
                     if (_bullet == null)
                     {
@@ -37,12 +40,6 @@ public class EnemyAI : MonoBehaviour
                         _bullet.transform.rotation = transform.rotation;
                     }
                 }
-            }
-
-            if (hit.distance < _obstacleRange)
-            {
-                float angle = Random.Range(-110, 110);
-                transform.Rotate(0, angle, 0);
             }
             Debug.DrawLine(ray.origin, hit.point, Color.red);
         }
