@@ -5,44 +5,71 @@ public class CanvasController : MonoBehaviour
 {
     //[SerializeField] private GameObject _crosshair;
     //[SerializeField] private GameObject _gameOverPanel;
+    //[SerializeField] private GameObject _pausePanel;
     //[SerializeField] private PlayerCharacter _playerCharacter;
 
     private GameObject _crosshair;
     private GameObject _gameOverPanel;
+    private GameObject _pausePanel;
     private PlayerCharacter _playerCharacter;
     void Start()
     {
+        Time.timeScale = 1f;
         _crosshair = GameObject.Find("Crosshair");
         _gameOverPanel = GameObject.Find("GameOverPanel");
+        _pausePanel = GameObject.Find("PausePanel");
         //_playerCharacter = GameObject.Find("Player").GetComponent<PlayerCharacter>();
         _playerCharacter = GameObject.FindObjectOfType<PlayerCharacter>();
-        
+
         CursorState(false);
         _crosshair.SetActive(true);
         _gameOverPanel.SetActive(false);
+        _pausePanel.SetActive(false);
     }
     void Update()
     {
-        //if ((_playerCharacter.playerHealthGet() <= 0) || Input.GetKey("escape"))
+        if (Input.GetKeyDown("escape"))
+        {
+            GameOver(0);
+        }
         if ((_playerCharacter.PlayerHealthGet() <= 0))
         {
-            GameOver();
+            GameOver(1);
         }
     }
-    public void GameOver()
+    private void GameOver(int value)
     {
-        CursorState(true);
-        _crosshair.SetActive(false);
-        _gameOverPanel.SetActive(true);
+        switch (value)
+        {
+            case 0:
+                Time.timeScale = 0f;
+                CursorState(true);
+                _crosshair.SetActive(false);
+                _pausePanel.SetActive(true);
+                break;
+            case 1:
+                Time.timeScale = 0f;
+                CursorState(true);
+                _crosshair.SetActive(false);
+                _gameOverPanel.SetActive(true);
+                break;
+        }
     }
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
+        _pausePanel.SetActive(false);
+        _crosshair.SetActive(true);
+        CursorState(false);
+    }
     public void ExitGame()
     {
         Application.Quit();
-        print("EXIT");
+        //print("EXIT");
     }
     void CursorState(bool state)
     {

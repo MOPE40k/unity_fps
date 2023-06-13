@@ -49,11 +49,14 @@ public class PlayerShooter : MonoBehaviour
 
                 EnemyReact enemyReact = hit.transform.GetComponent<EnemyReact>();
 
-                if (enemyReact != null && enemyReact.GetHealth() > 0)
+                if (enemyReact != null && enemyReact.GetCurrentHealth() < enemyReact.GetMaxHealth())
                 {
-                    if (enemyReact != null && hit.rigidbody != null && enemyReact.GetHealth() - _damage <= 0)
+                    Rigidbody enemyRigidbody;
+
+                    if (enemyReact.GetCurrentHealth() + _damage >= enemyReact.GetMaxHealth())
                     {
-                        hit.rigidbody.AddForce (-hit.normal * _hitForce);
+                        enemyReact.TryGetComponent<Rigidbody>(out enemyRigidbody);
+                        enemyRigidbody.AddForce (-hit.normal * _hitForce);
                     }
                     enemyReact.ReactToHit(_damage);                   
                 }

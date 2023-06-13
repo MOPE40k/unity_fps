@@ -9,10 +9,6 @@ public class PlayerCharacter : MonoBehaviour
     {
         _healthText.text = _playerHealth.ToString();
     }
-    void Update()
-    {
-
-    }
     public void Damage(int damage)
     {
         _playerHealth -= damage;
