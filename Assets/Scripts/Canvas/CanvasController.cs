@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class CanvasController : MonoBehaviour
 {
-    [SerializeField] private GameObject _crosshair;
+    //[SerializeField] private GameObject _crosshair;
     //[SerializeField] private GameObject _gameOverPanel;
     //[SerializeField] private GameObject _pausePanel;
     //[SerializeField] private PlayerCharacter _playerCharacter;
